@@ -1,0 +1,20 @@
+resources:
+- type: compute.v1.instance
+  name: vino-deployment-vm
+  properties:
+    zone: us-central1-a
+    machineType: zones/us-central1-a/machineTypes/f1-micro
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        sourceImage: projects/debian-cloud/global/images/family/debian-9
+    
+    networkInterfaces:
+    - network: projects/gcp-training-01-303001/global/networks/vino-vpc
+      subnetwork: regions/us-central1/subnetworks/vpc-subnet2
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
