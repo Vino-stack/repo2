@@ -15,11 +15,15 @@ Steps to deploy application on compute engine VM instance using Deployment Manag
      sudo apt install ufw
      
   Allow connections to SSH and the ports for Nginx
+  
     sudo ufw allow ssh
+    
     sudo ufw allow 'Nginx Full'
-    sudo nano var/www/html/index.nginx.debian.html
+    
+    sudo nano var/www/html/index.nginx-debian.html
     
     Enable UFW
+    
      sudo ufw enable
      
-  Check External IP to view your application
+ 6. Check External IP to view your application
