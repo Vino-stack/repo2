@@ -1,0 +1,37 @@
+Steps for Building Highly available and scalable application using Managed instance Group
+
+1.Enable Managed Instance Group API and Compute engine API
+
+2.Create VPC .Configure firewall rules to allow HTTP traffic to the web application
+
+3.Create an instance template that launches the demo web application on startup
+  with startup script :
+    sudo apt update && sudo apt -y install git gunicorn3 python3-pip
+    git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git
+    cd python-docs-samples/compute/managed-instances/demo
+    sudo pip3 install -r requirements.txt
+    sudo gunicorn3 --bind 0.0.0.0:80 app:app --daemon
+                  or
+     sudo apt install nginx
+     sudo apt install ufw
+     sudo ufw allow ssh
+     sudo ufw allow 'Nginx Full'
+     sudo sed -i 's/Welcome to nginx!/Hi!!Welcome to Google cloud app/g' /var/www/html/index.nginx-debian.html
+     sudo ufw enable
+
+4.Create a regional instance group(High Availability) to begin running the web application.
+
+5.Check External IP to view your application
+
+6.Simulate scale out by increasing the CPU utilization for your instances.Use can see new instances are getting created.
+
+export MACHINES=$(gcloud --project=$PROJECT_ID compute instances list --format="csv(name,networkInterfaces[0].accessConfigs[0].natIP)" | grep "vino-web-app-group")
+for i in $MACHINES;
+do
+  NAME=$(echo "$i" | cut -f1 -d,)
+  IP=$(echo "$i" | cut -f2 -d,)
+  echo "Simulating high load for instance $NAME"
+  curl -q -s "http://$IP/startLoad" >/dev/null --retry 2
+done
+
+7.Similarly scale in by increasing the CPU utilization for your instances.
