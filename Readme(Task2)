@@ -35,3 +35,13 @@ do
 done
 
 7.Similarly scale in by increasing the CPU utilization for your instances.
+
+8.To Configuring the load balancer
+  8.1 Reserve a static IP address
+  8.2 Create a load balancer( Internet facing :From Internet to my VMs)
+       configure Backend (Create a health check :Under Port : 80) by setting Health criteria for Check interval,Timeout ,Healthy Threshold,Unhealthy Threshold
+       configure Frontend  with already created static IP address &  with Endpoint protocol  HTTP
+       
+9.Simulating a zonal outage to verify load balancer works
+        
+      
