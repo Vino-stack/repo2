@@ -1,0 +1,30 @@
+1.Enable the App Engine Admin, Cloud Build APIs,Also for CSR,Grant App Engine access to the Cloud Build service account
+
+2.Create a repository in Cloud Source Repositories
+
+3.Clone the contents of the Google Cloud repository into a local Git repository
+
+4.Create files that contains the configuration information you need to deploy your code to App Engine.
+(main.py,app.yaml)
+
+5.Push to Cloud Source Repositories
+  git add .
+  git commit -m "Add Hello World app to Cloud Source Repositories"
+  git push origin master
+  
+6.Deploy your app
+  gcloud app deploy app.yaml
+  gcloud app browse(to check your app running)
+  
+7.Create a cloudbuild.yaml file and commit to csr.
+
+     steps:
+     - name: "gcr.io/cloud-builders/gcloud"
+      args: ["app", "deploy"]
+      timeout: "1600s"
+      
+8.Create a build trigger (under Build configuration,  Cloud Build configuration file)
+
+9.Push some changes to your app
+
+10.View your build in progress
