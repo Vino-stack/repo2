@@ -1,0 +1,40 @@
+Steps for deploying GKE app(scalable & highly available) with rolling update strategy.
+
+1.Get the source code and Dockerfile from github.
+
+2.Then, build the container image with a tag that includes your GCP project ID
+    docker build -t gcr.io/${DEVSHELL_PROJECT_ID}/hello-app:v1 .
+    
+3.Authenticate to the registry ,and then push the image:
+    gcloud auth configure-docker
+
+    docker push gcr.io/${DEVSHELL_PROJECT_ID}/hello-app:v1
+    
+4.Create a Kubernetes Cluster in GKE with (autoscalling and regional cluster for high availability) enabled
+  
+5.Connect to the cluster .check the nods running.
+
+6.Create a deployment from image & scale no.of pods
+    kubectl create deployment hello-world --image=gcr.io/${DEVSHELL_PROJECT_ID}/hello-app:v1
+    
+7.Create a HorizontalPodAutoscaler resource for your Deployment
+    kubectl autoscale deployment hello-app --cpu-percent=80 --min=1 --max=5
+
+8.check the Kubernetes metrics in GKE with the kubectl top command
+  kubectl top pods
+
+  kubectl top nodes
+
+9.Exposing the sample app to the internet
+  kubectl expose deployment hello-world --type=LoadBalancer --port 80 --target-port 8080
+  
+10.get the Service details for your app .and check the EXTERNAL_IP address
+
+  kubectl get service
+
+11.Deploying a new version of the sample app & verify the same.
+      Build and push a new hello-app Docker image to registry.
+      
+        Apply a rolling update to the existing Deployment with an image update:
+        
+ 
