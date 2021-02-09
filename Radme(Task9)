@@ -1,0 +1,25 @@
+Steps for deploying static website on cloud storage:
+
+1.Creating a cloud storage bucket with Default storage class
+
+2.Uploading your sample site's files(HTML/JS/CSS)
+
+3.Sharing your files to make  objects in your bucket readable to everyone on the public internet
+    Assing Storage Object Viewer role to all users.
+   
+4.Assigning specialty pages controlled by the MainPageSuffix property and NotFoundPage property
+    Use the gsutil web set command to set the MainPageSuffix property with the -m flag and the NotFoundPage with the -e flag:
+    
+5.Set your load balancer and SSL certificate
+    Configuring the backend(select your backend bucket)
+    Configuring host rules and path matchers(for rewrting 
+    Configuring the frontend (HTTPS protocol and create an SSL certificate,also Reserve a new static IP address )
+    
+6.Connecting your domain to your load balance(optional)
+
+7.Check Monitoring the SSL certificate status
+
+8.Test your website
+    Once the SSL certificate is active, verify that content is served from the bucket by going to https://www.example.com/test.html,
+    where test.html is an object stored in the bucket that you're using as the backend. 
+    If you set the MainPageSuffix property, https://www.example.com goes to index.html.
