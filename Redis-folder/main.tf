@@ -12,7 +12,7 @@ resource "google_redis_instance" "my_memorystore_redis_instance" {
   tier           = var.redis_tire
   memory_size_gb = 2
   region         = var.region
-  redis_version  = "REDIS_5_0"
+  redis_version  = var.redis_version
   depends_on    = [google_compute_network.vpc-net]
 }
 output "host" {
