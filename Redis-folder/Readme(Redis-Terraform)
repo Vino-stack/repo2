@@ -15,3 +15,14 @@ Steps
     PING
     Result: PONG 
     
+
+
+
+
+
+
+
+Reference:
+https://medium.com/@tsadoklf/cloud-recipes-use-terraform-to-create-kubernetes-cluster-and-memorystore-redis-instance-on-gcp-d51bb53df46a
+
+https://cloud.google.com/memorystore/docs/redis/quickstart-terraform#creating-redis
