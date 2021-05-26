@@ -1,0 +1,36 @@
+Intended for same Redis-Terraform task using Jenkins
+
+1.Set Up Jenkins
+      https://<External_IP of (LB)instance>:8080 in browser 
+   You ll see Unlock screen where you need to type the password to unlock Jenkins.
+   
+   1.1 Execute the following command to get the password.
+      sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+      Copy the password and paste it in the Administrator password field to unlock and start the setup.
+      
+   1.2 Install suggested plugins & create an admin user to login to Jenkins dashboard.
+   
+2.Manage Jenkins > Manage Plugins >Available > search Terraform. & install
+   2.1 Configure Terraform
+       Go to Manage Jenkins > Global Tool Configuration > It will display Terraform on the list.
+       
+3.Create a New Project
+Open Jenkins -> New Item. Enter any job name > Choose Pipeline > Click OK
+
+4.2 options for Jenkinsfile(Pipeline Script & Pipeline Script From SCM)
+Pipeline Script:
+You can write your Pipeline code directly on Jenkins job(write scripts to execute terraform code to deploy Redis)
+or choose Pipeline script from SCM
+
+5.Once pipeline run you can see the Redis instance in GCP.
+
+
+
+
+
+
+
+Reference:
+https://medium.com/@devopsslice/automating-terraform-deploys-with-jenkins-pipelines-ec0525382672
+
+https://medium.com/appgambit/terraform-with-jenkins-pipeline-439babe4095c
