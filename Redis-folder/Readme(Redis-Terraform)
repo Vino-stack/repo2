@@ -5,7 +5,8 @@ Steps
 
 2.terraform init,plan,apply(which ll create Create a Memorystore for Redis instance, and other network configuration required)
 
-3.open ssh of your VM's. launch bash with root privilege sudo sh install.sh or (telnet installation commands in startup-script block).
+3.# Connecting to the Redis instance from MIG( should located in same region and network as the Redis instance.)
+    open ssh of your VM's.
 
 4.From the terminal, telnet to the IP address of the Redis instance
     telnet instance-ip-address 6379
