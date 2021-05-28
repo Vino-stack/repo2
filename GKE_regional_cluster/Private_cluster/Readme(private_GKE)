@@ -6,9 +6,9 @@ Deploy Private-GKE regional cluster
 
 3.The Master node, which is hosted on a Google-Managed project, communicates with the nodes via VPC peering(This peering is automatically set up by Google and should not be modified or removed).
 
-3.Need to define a Cloud NAT in front of our nodes. The NAT provides a public IP in front of all nodes along with router.
+3.Need to define a Cloud NAT(External Gateway) in front of our nodes. The NAT provides a public IP in front of all nodes along with router.
 
-4.Additionally Bastion host(VM instance) can be  configured where (Kubectl binaries installed,k8s cluster config enable for accessing cluster from this bastion host)
+4.Additionally Bastion host(VM instance to manage Cluster) can be  configured where (Kubectl binaries installed,k8s cluster config enable for accessing cluster from this bastion host)
 
 5.Flow will be 
       Internet -> Cloud NAT <- Worker nodes <---Peering---> Master node
