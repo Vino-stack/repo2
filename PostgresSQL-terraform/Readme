@@ -1,0 +1,7 @@
+Deploy High Availability PostgresSql using terraform
+
+1.Create the PostgreSQL Database Instance
+
+2.create database and db user
+
+3. Build the Infrastructure Terraform init,pla,apply
