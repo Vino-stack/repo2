@@ -1,0 +1,17 @@
+Deploy apps with Helm using terraform
+
+Step 1: Setup your machine(with minikube) or Kubernetes GKE cluster
+
+Step 2: Install and configure Helm
+
+Step 3: Configure Service Account on GKE
+
+Step 4: Prep Helm Charts
+        helm create wordpress-chart
+        
+Step 4:Applying Terraform Configuration.
+       Terraform init,apply
+       
+Step 5: Execute kubectl get svc to get the IP address of your endpoint.
+
+Your application is now deployed! Check it out and confirm that the deployment was successful
