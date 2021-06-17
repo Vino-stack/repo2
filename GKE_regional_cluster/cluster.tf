@@ -1,5 +1,4 @@
 provider "google"{
-  credentials="SAKEY.json"
   project =var.gcp_project_id
   region =var.region
   zone =var.zone
@@ -16,6 +15,8 @@ resource "google_container_cluster" "primary" {
   location = "us-central1"
   remove_default_node_pool = true
   initial_node_count       = 1
+  network= var.vpc-name
+  subnetwork=var.vpc-subnet
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
