@@ -1,5 +1,3 @@
-#Network resources
-
 resource "google_compute_network" "vpc-net"{
   name=var.vpc-name
   auto_create_subnetworks = "false"
@@ -25,3 +23,4 @@ resource "google_compute_firewall" "vpcf" {
   }
   source_ranges = ["0.0.0.0/0"]
 }
+
