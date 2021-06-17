@@ -10,12 +10,6 @@ resource "google_service_account" "default" {
   display_name = "Service Account"
 }
 
-resource "google_service_account_iam_member" "admin-account-iam" {
-  service_account_id = google_service_account.sa.name
-  role               = "roles/iam.serviceAccountUser"
-  member             = "user:vinothar@google.com"
-}
-
 resource "google_container_cluster" "primary" {
   name     = "my-gke-cluster"
   location = "us-central1"
@@ -44,6 +38,13 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
       #"https://www.googleapis.com/auth/logging.write",
       #"https://www.googleapis.com/auth/monitoring",
     ]
-  }
+  }  
 }
 
+module "my-app-workload-identity" {
+  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name       = "my-application-name"
+  namespace  = "default"
+  project_id = "my-gcp-project-name"
+  roles = ["roles/storage.Admin", "roles/compute.Admin"]
+}
