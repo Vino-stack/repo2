@@ -1,0 +1,112 @@
+Containarize spring-boot application that comunicate with pubsub 
+
+1.Get the sample code for spring-boot pubsub app
+
+2.Create Topic and Subscription
+    gcloud pubsub topics create example
+    
+    gcloud pubsub subscriptions create example-subscription --topic=example
+
+3.Setup Service Account with Pub-sub admin role
+
+4.Add controller test endpoint
+
+5.build and run the app 
+  ./gardlew build
+  ./gradlew bootRun
+  
+6.Test the endpoints
+    curl -d 'message' localhost:8080/api/topic
+    
+7.Deploy the app in GKE
+    1.Add the dockerfile for the app.
+        FROM adoptopenjdk/openjdk11:alpine-jre
+        ARG JAR_FILE=target/*.jar
+        COPY ${JAR_FILE} app.jar
+        ENTRYPOINT ["java","-jar","/app.jar"]
+
+    2.Build & run the docker image
+    docker build --build-arg JAR_FILE=build/libs/\*.jar -t gcr.io/gcp-training-01-303001/spring-pubsub .
+    
+    docker run --rm -p 8080:8080 gcr.io/gcp-training-01-303001/spring-pubsub  .
+    
+   3.Push the docker image to gcr
+    docker push gcr.io/gcp-training-01-303001/spring-pubsub
+    
+    4.Create a Kubernetes Cluster
+  
+    5.Connect to the cluster .check the nods running.
+      gcloud container clusters get-credentials vino-cluster1 --zone us-central1-a --project gcp-training-01-303001
+      
+    6.Create a deployment from image
+      kubectl create deployment spring-pubsub --image=gcr.io/gcp-training-01-303001/spring-pubsub
+      
+    7.Exposing the sample app to the internet.
+      kubectl expose deployment spring-pubsub --name=pubsub-service --type=LoadBalancer --port 80 --target-port 8080
+      
+    8.Get the Service details for your app .and check the EXTERNAL_IP address
+      kubectl get service
+        curl EXTERNAL_IP/api/welcome
+      
+8.Set Workload Identity in cluster(way to access Google Cloud services(pub/sub here) from applications running within GKE)
+
+    1.with zonal clusters, set your default compute zone
+      gcloud config set compute/zone us-central1-a
+      
+    2.Update gcloud to the latest version:(optional)
+      gcloud components update
+      
+    3.Enabling Workload Identity on a cluster(existing cluster)
+      gcloud container clusters update vino-cluster1 \
+        --workload-pool=gcp-training-01-303001.svc.id.goog
+        
+    4.Migrate applications to Workload Identity
+      Modify an existing node pool to enable GKE_METADATA
+        gcloud container node-pools update default-pool \
+          --cluster=vino-cluster1 \
+          --workload-metadata=GKE_METADATA    
+          
+    5.Configure kubectl to communicate with the cluster:
+      gcloud container clusters get-credentials vino-cluster1
+      
+    6.Create the namespace to use for the Kubernetes service account.
+      kubectl create namespace gke-ns
+   
+    7.Create the Kubernetes service account to use for your application:
+      kubectl create serviceaccount --namespace gke-ns gke-pubsub-sa
+      
+    8.Binding allows the Kubernetes Service account to act as the Google service account.
+        gcloud iam service-accounts add-iam-policy-binding \
+          --role roles/iam.workloadIdentityUser \
+          --member "serviceAccount:gcp-training-01-303001.svc.id.goog[gke-ns/gke-pubsub-sa]" \
+              pbtest@gcp-training-01-303001.iam.gserviceaccount.com
+              
+      Annotate to the Kubernetes service account, using the email address of the Google service account.
+          kubectl annotate serviceaccount \
+           --namespace gke-ns \
+            gke-pubsub-sa \
+            iam.gke.io/gcp-service-account=pbtest@gcp-training-01-303001.iam.gserviceaccount.com
+            
+9.Try Publishing some message & check the logs in stackdriver
+    
+      curl -d 'Some message' 34.134.18.104/api/topic
+      
+      curl 34.134.18.104/api/welcome
+
+
+
+
+
+
+
+
+Reference:
+
+https://codersee.com/google-cloud-pub-sub-with-spring-boot-and-java/
+
+https://spring.io/guides/gs/messaging-gcp-pubsub/
+
+https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#concepts
+
+    
+    
