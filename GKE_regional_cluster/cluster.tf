@@ -10,6 +10,12 @@ resource "google_service_account" "default" {
   display_name = "Service Account"
 }
 
+resource "google_service_account_iam_member" "admin-account-iam" {
+  service_account_id = google_service_account.sa.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "user:vinothar@google.com"
+}
+
 resource "google_container_cluster" "primary" {
   name     = "my-gke-cluster"
   location = "us-central1"
