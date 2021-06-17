@@ -6,7 +6,7 @@ provider "google"{
 
 # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
 resource "google_service_account" "default" {
-  account_id   = "service-account-id"
+  account_id   = "vino-terraform-sa"
   display_name = "Service Account"
 }
 
@@ -15,8 +15,10 @@ resource "google_container_cluster" "primary" {
   location = "us-central1"
   remove_default_node_pool = true
   initial_node_count       = 1
-  network= var.vpc-name
-  subnetwork=var.vpc-subnet
+  depends_on    = [google_compute_network.vpc-net]
+  network = google_compute_network.vpc-net.id
+  subnetwork = google_compute_subnetwork.vpc-subnet.id
+
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
@@ -27,7 +29,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
   node_config {
     preemptible  = true
-    machine_type = "f1-micro"
+    machine_type = var.vm-machine_type
 
     # For finegrined access control grant access to specific APIs you want like only for logging and monitoring.
     service_account = google_service_account.default.email
@@ -38,3 +40,4 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     ]
   }
 }
+
