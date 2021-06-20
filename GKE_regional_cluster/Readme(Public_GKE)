@@ -1,3 +1,22 @@
 Deploy Public-GKE regional cluster 
 
 1. Public GKE Cluster will have both private and public addresses.
+
+
+
+
+
+
+Reference:
+
+https://github.com/yogeshvk1209/gke_private_cluster_e2e
+
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#oauth_scopes
+
+https://github.com/jetstack/terraform-google-gke-cluster/tree/master/example
+
+https://github.com/alexandarp/terraform-gke/blob/master/main.tf
+
+https://gcloud.devoteam.com/blog/how-to-secure-your-google-kubernetes-engine-cluster-with-terraform-istio
+
+https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#step_1_view_control_planes_cidr_block
