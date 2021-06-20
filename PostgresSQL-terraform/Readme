@@ -5,3 +5,15 @@ Deploy High Availability PostgresSql using terraform
 2.create database and db user
 
 3. Build the Infrastructure Terraform init,pla,apply
+
+
+
+
+
+PostgressSql HA
+
+https://gmusumeci.medium.com/getting-started-with-terraform-and-google-cloud-platform-gcp-deploying-a-postgresql-database-ce1664fb038c
+
+https://github.com/terraform-google-modules/terraform-google-sql-db/blob/master/examples/postgresql-ha/variables.tf
+
+https://github.com/terraform-google-modules/terraform-google-sql-db/blob/master/modules/postgresql/main.tf
