@@ -15,3 +15,19 @@ Step 4:Applying Terraform Configuration.
 Step 5: Execute kubectl get svc to get the IP address of your endpoint.
 
 Your application is now deployed! Check it out and confirm that the deployment was successful
+
+
+
+
+
+
+Helm:
+
+https://www.hands-on.cloud/the-most-easy-way-to-deploy-apps-to-the-kubernetes-using-terraform/
+
+
+http://docs.shippable.com/deploy/tutorial/deploy-to-gcp-gke-helm/
+
+https://github.com/gruntwork-io/terraform-google-gke/blob/google-blog-post-oics/main.tf
+
+https://cloud.google.com/blog/products/devops-sre/deploying-a-production-grade-helm-release-on-gke-with-terraform
