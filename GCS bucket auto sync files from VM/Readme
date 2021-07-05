@@ -1,0 +1,38 @@
+Auto Sync files to GCS
+
+1.Create a new gcs bucket with globally unique name.
+    gsutil mb gs://$gcs_bucket
+
+2.Create vpc & firewall that allows access to ssh
+
+3.Create a VM instance of your choise(linux server/windows server) with access scope to Access scopes -> Storage -> Full & boot disk
+
+4.SSH into VM
+
+    4.1  Install lftp on VM
+         Lftp utility is swiss army knife of file downloading, it works with lot of protocols including sftp.
+              sudo apt-get install lftp
+              
+    4.2  Install gcsfuse on VM
+         export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`
+         echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list
+         curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+         
+         sudo apt-get update
+         sudo apt-get install gcsfuse
+         
+    4.3  Mount bucket on VM
+         
+         mkdir ~/gcsBucket
+         gcsfuse <bucket-name> ~/gcsBucket
+         
+    4.4  Schedule lftp command(schedule cron job for every min/hr/day/month/day of week) 
+         crontab -e
+
+         * * * * * lftp sftp://vino:mypass@35.238.12.240  -e "set sftp:auto-confirm yes;  mirror --verbose /home/vinothar/gcsbucket ~/gcsBucket ;  bye"
+         
+    4.5 Check creating files in VM that should be available in GCS bucket u have created.
+    
+    
+         
+         
