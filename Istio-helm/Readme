@@ -1,0 +1,127 @@
+Deploy application to GKE with istio and helm
+
+1.Build & push docker image for your app
+
+2.install Istio and enable
+    2.1  Install
+         curl -L https://istio.io/downloadIstio | sh -
+         cd istio-1.10.2
+         # Add the istioctl client to your path (Linux or macOS):
+          export PATH=$PWD/bin:$PATH
+          
+     2.2   For this installation, we use the demo configuration profile. It’s selected to have a good set of defaults for testing,
+           (installs Istio,Istiod,Egress gateways,Ingress gateways)
+          istioctl install --set profile=demo -y
+          
+     2.3 Add a namespace label to instruct Istio to automatically inject Envoy sidecar proxies when you deploy your application later
+          kubectl label namespace default istio-injection=enabled
+          
+
+3.Create deployment and services using helm charts.
+    
+    3.1 Create a sample helm chart then modify it according to ur need
+        which helm(check helm installed)
+        
+        Kubectl get credentials
+
+        helm create demochart
+        
+        modification req:    
+        1. repository: gcr.io/gcp-training-01-303001/frontend  -> values.yaml
+         
+        2. service:
+         type: LoadBalancer
+         targetPort: 8080
+         port: 80
+         loadBalancerIP: 172.16.0.1
+         sessionAffinity: None
+
+              (or)
+         service:
+          type: ClusterIP
+          port: 8081                      -> values.yaml
+         
+         3. container port :8080          -> deployment.yaml
+          
+    3.2  Install your helm chart that will create req deployments/pods and services for u
+          helm install <helm-release-name> <chart-name>
+          
+ 4.Create istio-gateway & virtual services for each of your microservices
+        kubectl apply -f gateway.yaml
+ 
+        for example:
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: springdemo-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - port:
+        name: http
+        number: 80
+        protocol: HTTP
+      hosts:
+        - "*"
+---   
+apiVersion: networking.istio.io/v1alpha3  
+kind: VirtualService  
+metadata:  
+  name: springdemo-vs  
+spec:  
+  hosts:  
+  - "*"  
+  gateways:  
+  - springdemo-gateway  
+  http:  
+  - match:  
+    - uri:  
+        prefix: /  
+    route:  
+    - destination:  
+        port:  
+          number: 8080  
+        host: frontend-helm-springdemo
+        
+   4. To validate gateway file.
+   istioctl analyze
+      
+   5.Set/export the ingress ports:
+      export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}');
+      export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}');
+
+      export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT(curl the url to check app endpoint)
+      
+   6.(Optional)different dashboards that we can enable with Istio:
+   
+      6.1Grafana: exposes monitoring metrics for services running within the mesh.
+
+      6.2Tracing: offers end to end tracing of http requests going through different layers and containers.
+   
+      6.3install Kiali dhashboard(Kiali offers visibility and real time observability for the services running within the mesh including Istio components.)
+   
+          kubectl apply -f samples/addons
+          kubectl rollout status deployment/kiali -n istio-system
+          
+          Access the Kiali dashboard.
+          istioctl dashboard kiali
+
+
+
+
+
+
+References:
+https://www.istioworkshop.io/01-workshop-overview/
+
+https://istio.io/latest/docs/setup/getting-started/#download
+
+https://dev.to/gateixeira/deploying-a-spring-boot-kotlin-app-on-kubernetes-with-docker-and-helm-589p
+
+https://developer.okta.com/blog/2019/04/01/spring-boot-microservices-with-kubernetes#move-forward-with-spring-boot-microservices-and-kubernetes
+
+https://pklinker.medium.com/integrating-a-spring-boot-application-into-an-istio-service-mesh-a55948666fd
+
+https://dzone.com/articles/deploy-a-spring-boot-microservice-architecture-to
