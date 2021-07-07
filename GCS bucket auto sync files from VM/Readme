@@ -34,5 +34,17 @@ Auto Sync files to GCS
     4.5 Check creating files in VM that should be available in GCS bucket u have created.
     
     
+ 4.(Alternative )with gsutil rsync
+ 
+       To automate the sync process use cron job:
+
+         1.Create a script to run with cron $ nano backup.sh
+         2.Paste your gsutil command in the script $ gsutil rsync -r bucketfls gs://sftp-bucket-gcp-training-01-303001
+         3.Make the script executable $ chmod +x backup.sh
+         4.Based on your use case, put the shell script (backup.sh) in one of the below folders: a) /etc/cron.daily b) /etc/cron.hourly c) /etc/cron.monthly d) /etc/cron.weekly
+         5.If you want to run this script for a specific time then go to the terminal and type: $ crontab -e
+         
+            Then simply call out the script with cron as often as you want, for example, : 00 00 * * * /path/to/your/backup.sh
+            * * * * * /home/vinothar/backup.sh
          
          
