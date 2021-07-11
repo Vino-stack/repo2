@@ -38,3 +38,46 @@ https://cloud.google.com/build/docs/deploying-builds/deploy-appengine
 https://cloud.google.com/source-repositories/docs/quickstart-triggering-builds-with-source-repositories
 
 https://medium.com/google-cloud/continuous-delivery-in-google-cloud-platform-cloud-build-with-app-engine-8355d3a11ff5
+
+
+
+
+
+-------------------------------------
+app.yaml
+
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: .*
+  script: main.app
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+  ------------------------------------
+  cloudbuild.yaml
+  
+  steps:
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["app", "deploy"]
+timeout: "1600s"
+
+--------------------------------------
+main.py
+
+
+#!/usr/bin/env python
+
+import webapp2
+
+class MainHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write('Hello, World!')
+
+app = webapp2.WSGIApplication([
+    ('/', MainHandler)
+], debug=True)
+
