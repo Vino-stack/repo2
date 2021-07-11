@@ -45,3 +45,6 @@ done
 9.Simulating a zonal outage to verify load balancer works
         
       
+      
+      
+Reference: https://cloud.google.com/compute/docs/tutorials/high-scalability-autoscaling
