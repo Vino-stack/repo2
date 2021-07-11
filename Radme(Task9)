@@ -23,3 +23,7 @@ Steps for deploying static website on cloud storage:
     Once the SSL certificate is active, verify that content is served from the bucket by going to https://www.example.com/test.html,
     where test.html is an object stored in the bucket that you're using as the backend. 
     If you set the MainPageSuffix property, https://www.example.com goes to index.html.
+
+
+
+Reference : https://cloud.google.com/storage/docs/hosting-static-website#deleting-ip
