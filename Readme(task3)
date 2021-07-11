@@ -33,9 +33,9 @@ Deploying one application to Appengine with Cloud Build
 
 
 Reference:
-https://cloud.google.com/build/docs/deploying-builds/deploy-appengine
-
 https://cloud.google.com/source-repositories/docs/quickstart-triggering-builds-with-source-repositories
+
+https://cloud.google.com/build/docs/deploying-builds/deploy-appengine
 
 https://medium.com/google-cloud/continuous-delivery-in-google-cloud-platform-cloud-build-with-app-engine-8355d3a11ff5
 
