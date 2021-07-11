@@ -26,4 +26,7 @@ Steps for deploying static website on cloud storage:
 
 
 
-Reference : https://cloud.google.com/storage/docs/hosting-static-website#deleting-ip
+Reference : 
+https://cloud.google.com/storage/docs/hosting-static-website-http
+
+https://cloud.google.com/storage/docs/hosting-static-website#deleting-ip
