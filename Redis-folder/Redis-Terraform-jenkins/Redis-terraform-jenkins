@@ -9,7 +9,9 @@ Intended for same Redis-Terraform task using Jenkins
       Copy the password and paste it in the Administrator password field to unlock and start the setup.
       
    1.2 Install suggested plugins & create an admin user to login to Jenkins dashboard.
-   
+ 
+ #Automating Terraform deploys with Jenkins Pipelines
+ 
 2.Manage Jenkins > Manage Plugins >Available > search Terraform. & install
    2.1 Configure Terraform
        Go to Manage Jenkins > Global Tool Configuration > It will display Terraform on the list.
