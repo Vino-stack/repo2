@@ -1,0 +1,12 @@
+Enabling GKE usage metering on cluster
+
+1.First create a BigQuery dataset
+optionally You can visualize your GKE usage metering data using a Data Studio dashboard, 
+which allows you to filter your data by cluster name, Namespace, or label,
+
+2.Prerequisites
+  Enable Exporting Google Cloud billing data to BigQuery if it is not already enabled.
+  Enable GKE usage metering on at least one cluster 
+  2.3Create the BigQuery cost breakdown table
+  2.4(Create the BigQuery data source)
+  
