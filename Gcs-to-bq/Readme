@@ -1,80 +1,18 @@
-Core Beam transforms
+Objective:
+Create pipeline that reads data from varied files in a Cloud Storage bucket and writes the data to a Bigtable table
+Compartmentalize the data contents in the form of logical views applicable to content sensitive consumers
+Visualize the data through various reports to fulfill business requirements
 
-Beam provides the following core transforms, each of which represents a different processing paradigm:
+Scenarios / Use Cases:
+Load CSV Files from Google Cloud Storage to BigQuery Using Dataflow and Visualize the same with Data Studio
 
-ParDo:
-ParDo is a Beam transform for generic parallel processing. The ParDo processing paradigm is similar to the “Map” phase of a Map/Shuffle/Reduce-style algorithm:
-(Filtering a data set,Formatting,Extracting)
+Pre-requesites:
+The BigQuery dataset and table(empty) must exist.
+The input csv files must exist in a Cloud Storage bucket before running the pipeline.
+Data Studio API must be enabled
 
-When you apply a ParDo transform, you’ll need to provide user code in the form of 
-a DoFn object(contains the processing logic that gets applied to the elements in the input collection.). 
+Driver program for the above scenario works as follows:
+1.Process each Element of csv file seperated by comma 
+2.Bigtable expects a specific schema from the input csv files.
 
-GroupByKey:
-GroupByKey is a Beam transform for processing collections of key/value pairs.
-for example: cat, 1     cat[1,7]
-             dog, 5     dog 5
-             cat, 7
- GroupByKey gathers up all the values with the same key and outputs a new pair consisting of the unique key and a collection of all of the values
- 
- CoGroupByKey:
- CoGroupByKey performs a relational join of two or more key/value PCollections that have the same key type
- Arrays.asList(
-        KV.of("amy", "amy@example.com"),
-        A2
-        KV.of("amy", "111-222-3333")
-  
-  Combine:
- Combine is a Beam transform for combining collections of elements or values in your data.
- Sum a collection of Integer values
- 
- Flatten:
- Flatten is a Beam transform for PCollection objects that store the same data type. 
- Flatten merges multiple PCollection objects into a single logical PCollection
 
-Partition is a Beam transform for PCollection objects that store the same data type. 
-Partition splits a single PCollection into a fixed number of smaller collections.
---------------------
-Load CSV File from Google Cloud Storage to BigQuery Using Dataflow: also the req is using custom pipeline.
-
-Pipeline I/O
-When you create a pipeline, you often need to read data from some external source, such as a file or a database. 
-Likewise, you may want your pipeline to output its result data to an external storage system.
-
-Beam provides read and write transforms for a number of common data storage types.
-
-Reading input data:
-Read transforms read data from an external source and return a PCollection representation of the data for use by your pipeline. 
-You can use a read transform at any point while constructing your pipeline to create a new PCollection
-here in my case I have to set 
-
-Writing output data:
-Write transforms write the data in a PCollection to an external data source .
-You will most often use write transforms at the end of your pipeline to output your pipeline’s final results
-
-1.Upload the sample csv file into a bucket. For example, dataflow_examples/sample.csv
-2.you need to first create a driver program .driver program defines your pipeline, including all of the inputs, transforms, and outputs;
-    A Pipeline encapsulates your entire data processing task, from start to finish. 
-    This includes reading input data, transforming that data, and writing output data.
-
-    A PCollection represents a distributed data set that your Beam pipeline operates on.
-    Your pipeline typically creates an initial PCollection by reading data from an external data source, 
-    but you can also create a PCollection from in-memory data within your driver program. 
-    
-    A PTransform represents a data processing operation, or a step, in your pipeline. Every PTransform takes one or more PCollection objects as input,
-    performs a processing function that you provide on the elements of that PCollection
-    
-    I/O transforms:- which PTransforms that read or write data to various external storage systems.
-    
-    2.1 driver program works as follows:
-     Create a Pipeline including the Pipeline Runner.
-        here in my case dataflow runner
-     Create an initial PCollection for pipeline data, either using the IOs to read data from an external storage system or with in-memory.
-        here in my case the source will be gcs bucket with csv files.
-     Apply PTransforms to each PCollection
-        for example I ll go with pardo beam transfor with dofn ,coz thats the more general one.
-     Use IOs to write the final, transformed PCollection(s) to an external source
-         In my case the target will be to bigquery table.
-     Run the pipeline using the designated Pipeline Runner.
-         once I run it dataflow job will be created .that I can visualize the graph in console. DF
-     and Verify the result in BigQuery.
-     
