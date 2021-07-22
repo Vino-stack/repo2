@@ -45,3 +45,22 @@ Steps:
 5.Check the data gets updated in bigquery table.
 6.Visualize bigquery table data with Data Studio(Refer:1.5)
 
+
+
+
+
+
+
+Referene:
+
+https://kontext.tech/column/cloud-gcp/282/load-csv-file-from-google-cloud-storage-to-bigquery-using-dataflow
+
+https://beam.apache.org/documentation/runners/dataflow/#streaming-execution
+
+https://beam.apache.org/documentation/programming-guide/
+
+https://cloud.google.com/bigquery/docs/visualize-data-studio#create_a_chart_using_a_custom_query
+
+https://medium.com/bb-tutorials-and-thoughts/how-to-run-a-gcp-dataflow-pipeline-from-local-machine-de4a6a4ff611
+
+https://medium.com/bb-tutorials-and-thoughts/how-to-create-a-streaming-job-on-gcp-dataflow-a71b9a28e432
