@@ -1,20 +1,47 @@
-// Sample to load CSV data with autodetect schema from Cloud Storage into a new BigQuery table
-public class App {
+package com.example;
 
-  public static void main(String[] args) {
-    // TODO(developer): Replace these variables before running the sample.
-    String datasetName = "newds";
-    String tableName = "newt";
-    String sourceUri = "gs://df-src-gcp-training-01-303001/*.csv";
+import com.example.Example.GCSEvent;
+import com.google.cloud.functions.BackgroundFunction;
+import com.google.cloud.functions.Context;
+import java.util.logging.Logger;
+
+import java.util.Date;
+
+import com.google.cloud.RetryOption;
+import com.google.cloud.bigquery.BigQuery;
+import com.google.cloud.bigquery.BigQueryException; 
+import com.google.cloud.bigquery.BigQueryOptions; 
+import com.google.cloud.bigquery.QueryJobConfiguration; 
+import com.google.cloud.bigquery.Job;
+import com.google.cloud.bigquery.JobInfo; 
+import com.google.cloud.bigquery.Table; 
+import com.google.cloud.bigquery.TableId; 
+import com.google.auth.oauth2.GoogleCredentials; 
+import com.google.auth.oauth2.ServiceAccountCredentials; 
+import com.google.auth.oauth2.AccessToken;
+import com.google.cloud.bigquery.CsvOptions;
+import com.google.cloud.bigquery.LoadJobConfiguration;
+
+public class Example implements BackgroundFunction<GCSEvent> {
+  private static final Logger logger = Logger.getLogger(Example.class.getName());
+
+  @Override
+  public void accept(GCSEvent event, Context context) {
+    String tableName = "auto-tb";
+    String datasetName = "asetcsv";
+    createDataset(datasetName);
+
+    String sourceUri = "gs://src-bt/*.csv";
+    System.out.println("hi from CF");
     loadCsvFromGcsAutodetect(datasetName, tableName, sourceUri);
   }
-
   public static void loadCsvFromGcsAutodetect(
       String datasetName, String tableName, String sourceUri) {
     try {
       // Initialize client that will be used to send requests. This client only needs to be created
       // once, and can be reused for multiple requests.
       BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
+	  System.out.println("hi from CF-bq");
 
       TableId tableId = TableId.of(datasetName, tableName);
 
@@ -42,4 +69,19 @@ public class App {
       System.out.println("Column not added during load append \n" + e.toString());
     }
   }
+
+
+
+  public class GCSEvent {
+  // Cloud Functions uses GSON to populate this object.
+  // Field types/names are specified by Cloud Functions
+  // Changing them may break your code!
+  private String bucket;
+  private String name;
+  private String metageneration;
+  private Date timeCreated;
+  private Date updated;
+// [END functions_helloworld_gcs_event]
+  }
+
 }
