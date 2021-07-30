@@ -1,0 +1,35 @@
+
+
+
+
+yet to complete.............
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gcloud functions logs read function-1
+
+
+Reference:
+
+Java:
+
+
+https://cloud.google.com/functions/docs/first-java(http trigger)
+
+Python:
+https://medium.com/nerd-for-tech/ingest-data-from-gcs-to-bq-using-cloud-functions-abaca92514bf
+
+https://cloud.google.com/architecture/streaming-data-from-cloud-storage-into-bigquery-using-cloud-functions#architecture
