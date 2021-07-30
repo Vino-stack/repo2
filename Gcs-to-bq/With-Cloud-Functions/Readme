@@ -25,9 +25,15 @@ gcloud functions logs read function-1
 Reference:
 
 Java:
-
+https://cloud.google.com/bigquery/docs/loading-data-cloud-storage-csv#java
 
 https://cloud.google.com/functions/docs/first-java(http trigger)
+
+https://cloud.google.com/bigquery/docs/schema-detect#java
+
+https://cloud.google.com/bigquery/docs/datasets
+
+https://cloud.google.com/bigquery/docs/tables
 
 Python:
 https://medium.com/nerd-for-tech/ingest-data-from-gcs-to-bq-using-cloud-functions-abaca92514bf
