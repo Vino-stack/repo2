@@ -1,1 +1,50 @@
 Cloud Functions
+
+
+Cloud Functions are either HTTP based functions or event-driven functions. 
+Depending on runtime you use, event-driven can either be BackGround functions(Node.js, Python, Go, and Java) or Cloud Event Functions(.NET, Ruby, and PHP)
+
+HTTP functions
+You invoke HTTP functions from standard HTTP requests. 
+These HTTP requests wait for the response and support handling of common HTTP request methods like GET, PUT, POST, DELETE and OPTIONS.
+
+Event-driven functions
+Cloud Functions uses event-driven functions to handle events from your Cloud infrastructure, 
+such as messages on a Pub/Sub topic, or changes in a Cloud Storage bucket.
+Cloud Functions supports two sub-types of event-driven functions:
+    Background functions
+    CloudEvent functions
+
+Structuring source code:
+  
+Entry point: com.Class_Name
+.
+├── pom.xml
+└── src/
+    ├── main/
+    |   └── java/
+    |       └── MyFunction.java
+    └── test
+        └── java/
+            └── MyFunctionTest.java
+    
+    
+Entry point: functions.Class_Name
+
+.
+├── pom.xml
+└── src/
+    ├── main/
+    |   └── java/
+    |       └── functions/
+    |               └── MyFunction.java
+    └── test/
+        └── java/
+                └── functions/
+                    └── MyFunctionTest.java
+                    
+                    
+                    
+            
+  
+
