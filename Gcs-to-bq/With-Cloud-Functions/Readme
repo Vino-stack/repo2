@@ -4,8 +4,11 @@ The pipeline consists of the following steps:
 2.This event triggers the streaming Cloud Function.
 3.Data is parsed and inserted into BigQuery.
 
+Pre-requesites:
+Ensure Cloud Functions, and Cloud Storage APIs are enabled from APIs and Services console.
 
-
+Steps:
+1.Create Function
 
 yet to complete.............
 
