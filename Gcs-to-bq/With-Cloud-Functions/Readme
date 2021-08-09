@@ -8,9 +8,24 @@ Pre-requesites:
 Ensure Cloud Functions, and Cloud Storage APIs are enabled from APIs and Services console.
 
 Steps:
-1.Create Function
+1.Create Function ,select 
 
-yet to complete.............
+Trigger type 
+cloud storage
+
+Event type
+Finalize/Create
+
+with Entrypoint : com.example.Example
+
+  1.1 Write the funtion code for your job(Example.java)
+  1.2 add dependacies in pom.xml (libraries-bom,google-cloud-storage[1.117.1],google-cloud-bigquery[1.136.0],google-cloud-logging)
+  
+2.Deploy the Cloud Function
+
+3.Trigger the function by uploading csv file to source gcs bucket.
+
+4.check the desired result in big query table
 
 
 
