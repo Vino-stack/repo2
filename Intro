@@ -1,0 +1,29 @@
+Register NEG backends from multiple clusters into the same backend service
+
+Introduction
+
+Pre-requesites:
+Container-native load balancers through ingress on GKE have the following requirements:
+
+1. Google Kubernetes Engine version
+    Container-native load balancers are generally available in:
+
+      v1.13 GKE clusters running v1.13.8 and higher
+      v1.14 GKE clusters running v1.14.4 and higher
+      v1.15 and higher
+
+2. VPC-native
+   To use container-native load balancing, clusters must be VPC-native. To learn more, refer to Creating VPC-native clusters using Alias IPs.
+      --enable-ip-alias: This creates a VPC-native cluster, which is required when you privately use public IP address ranges.
+  
+3. HTTP load balancing
+    To use container-native load balancing, your cluster must have HTTP load-balancing enabled. GKE clusters have HTTP load-balancing enabled by default; you must not disable it.
+
+
+For GKE 1.17.6-gke.7+ clusters where NEG annotation is automatic,
+by default,   
+annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    
+Upon creating the Ingress, an HTTP(S) load balancer is created in the project, and NEGs are created in each zone in which the cluster runs. The endpoints in the NEG and the endpoints of the Service are kept in sync.
+
