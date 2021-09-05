@@ -1,0 +1,60 @@
+Steps:
+
+1.Get the sample spring boot app code .
+    git clone https://github.com/codersee-blog/java-spring-boot-pubsub.git
+    
+2.comment out java-spring-boot-pubsub/src/main/resources/application.yaml file,
+    as we dont require credentials ,we are using cloud shell
+ 
+3.Remove all folders inside java-spring-boot-pubsub/src/main/java/com/codersee/simplepubsub/ except (SimplePubsubApplication.java and Controller)
+  3.1 Add controller test endpoint
+
+    TestController.java
+    ----------------------------
+        @RestController
+        @RequestMapping("/")
+        public class TestController {
+
+           @GetMapping("/")
+	      public String index() {
+		        return "Hello World!";
+	        }
+          }
+
+4.build and run the app 
+  ./gardlew build
+  ./gradlew bootRun
+  
+5.Test the endpoints
+    curl localhost:8080/
+    
+6.Deploy the app in GKE
+    1.Add the dockerfile for the app.
+        FROM adoptopenjdk/openjdk11:alpine-jre
+        ARG JAR_FILE=target/*.jar
+        COPY ${JAR_FILE} app.jar
+        ENTRYPOINT ["java","-jar","/app.jar"]
+
+    2.Build & run the docker image
+    docker build --build-arg JAR_FILE=build/libs/\*.jar -t gcr.io/gcp-training-01-303001/spring-pubsub .
+    
+    docker run --rm -p 8080:8080 gcr.io/gcp-training-01-303001/spring-pubsub .
+    
+7.Push the docker image to gcr
+    docker push gcr.io/gcp-training-01-303001/spring-pubsub
+    
+    4.Create a Kubernetes Cluster
+  
+    5.Connect to the cluster .check the nods running.
+      gcloud container clusters get-credentials vino-cluster1 --zone us-central1-a --project gcp-training-01-303001
+      
+    6.Create a deployment from image
+      kubectl create deployment spring-pubsub --image=gcr.io/gcp-training-01-303001/spring-pubsub
+      
+    7.Exposing the sample app to the internet.
+      kubectl expose deployment spring-pubsub --name=pubsub-service --type=LoadBalancer --port 80 --target-port 8080
+      
+    8.Get the Service details for your app .and check the EXTERNAL_IP address
+      kubectl get service
+        curl EXTERNAL_IP/
+    
