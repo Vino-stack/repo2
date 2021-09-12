@@ -12,3 +12,5 @@ https://cloud.google.com/anthos/multicluster-management/connect/registering-a-cl
 
 https://stackoverflow.com/questions/57811596/get-specific-value-out-of-the-terraform-state-file
 
+https://cloud.google.com/traffic-director/docs/install-overview
+
