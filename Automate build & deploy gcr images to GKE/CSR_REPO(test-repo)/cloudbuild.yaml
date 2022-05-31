@@ -1,1 +1,31 @@
+#Build Steps
+steps:
 
+- name: gcr.io/cloud-builders/docker
+  id: build-testms-builder
+  entrypoint: bash
+  args:
+  - -eux
+  - -c
+  - |
+    docker build --tag=test-image .
+    docker tag test-image gcr.io/${_PROJECT_ID}/test 
+    docker push gcr.io/${_PROJECT_ID}/test 
+  dir: ./testms_builder
+
+- name: gcr.io/cloud-builders/kubectl
+  id: deploy-to-gke
+  entrypoint: bash
+  args:
+  - -eux
+  - -c
+  - |
+    bash test.sh
+  dir: ./gke_workloads
+  waitFor: ['build-testms-builder']
+
+substitutions:
+  _PROJECT_ID: my-first-project
+  
+options:
+  logging: CLOUD_LOGGING_ONLY
