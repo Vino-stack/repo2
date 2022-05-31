@@ -1,0 +1,42 @@
+Using Cloud build to automate deployment :
+
+1.Make sure required permission are granted ,especially 
+    Cloud Build Service Account role & Kubernetes Engine Developer role for default cloudbuild service account.
+    
+2. Create a private/public cluster based on requirement.
+
+3. Create a cloud source source repository to store required files.
+   3.1  Run below commands in cloud shell or cloud SDK 
+   
+        3.1.1   To Provide your authentication credentials
+                  gcloud init
+        3.1.2   Clone this repository to a local repository
+                  gcloud source repos clone REPO_NAME --project=PROJECT_NAME
+        3.1.3   Switch to your new local Git repository
+                  cd REPO_ NAME
+        3.1.4   Create required files inside this local repo
+                  for example :
+                        |test_builder
+                          ->Dockerfile
+                        |gke_workloads
+                          ->deployment.yaml
+                     ->CloudBuild.yaml 
+                     
+        3.1.5   Configure Git with your user name and email 
+                  git config --global user.name "MY_NAME"
+                  git config --global user.email "MY_NAME@example.com"
+                  
+        3.1.6   From your local Git repository, push it to actual cloud source repository
+                  git add .
+                  git commit –m “COMMIT MESSAGE”
+                  git push -u origin master
+                  
+  4.Set up Cloud build Trigger pointing to Cloud source repository(whenever a push happened build will get triggered)
+
+  5. Check Cloud build histry for logs , and verify workloads deployed on desired cluster.
+  
+  
+  Reference:
+  
+  https://cloud.google.com/build/docs/automating-builds/create-manage-triggers
+
