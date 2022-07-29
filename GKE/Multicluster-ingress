@@ -1,0 +1,46 @@
+Multicluster-ingress to route traffic across multiple Google Kubernetes Engine (GKE) clusters in different regions
+
+Steps:
+
+1.gcloud services enable \
+    anthos.googleapis.com \
+    multiclusteringress.googleapis.com \
+    gkehub.googleapis.com \
+    container.googleapis.com \
+    --project=bustling-syntax-349005
+
+2.Create clusters across regions where you want to.
+
+3.Rename cluster context to ease of use.
+kubectl config rename-context gke_bustling-syntax-349005_us-central1-b_gke-us gke-us
+kubectl config rename-context gke_bustling-syntax-349005_europe-west1-b_gke-eu gke-eu
+
+4.Register clusters to a fleet
+gcloud container fleet memberships register gke-us \
+    --gke-cluster us-central1-b/gke-us \
+    --enable-workload-identity \
+    --project=bustling-syntax-349005
+
+gcloud container fleet memberships register gke-eu \
+    --gke-cluster europe-west1-b/gke-eu \
+    --enable-workload-identity \
+    --project=bustling-syntax-349005
+    
+5.Specify a config cluster
+gcloud container fleet ingress enable \
+   --config-membership=gke-us
+
+6.Deploy workloads and MCI & MCS
+
+7.Verify external HTPPS LB will be created which ll load balance across clusters.
+
+
+Reference:
+
+https://cloud.google.com/kubernetes-engine/docs/how-to/multi-cluster-ingress-setup
+
+https://cloud.google.com/kubernetes-engine/docs/how-to/multi-cluster-ingress#managing_kubernetes_resources
+
+
+
+
